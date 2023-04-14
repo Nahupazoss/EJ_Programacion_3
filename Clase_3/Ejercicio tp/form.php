@@ -10,11 +10,6 @@
         <h1>Tarea tp</h1>
         <h2>Nahuel Rodrigo Pazos</h2>
         <form action="./nexo.php" method="post">
-        <h3>Opciones de accion:</h3>
-        <h4>Agregar alumno = 1</h4>
-        <h4>Listar alumnos = 2</h4>
-        <h4>Modificar alumno = 3</h4>
-        <h4>Eliminar alumno = 4</h4>
         <input type="text" name="accion" placeholder="accion">
         <br>
         <input type="text" name="nombre" placeholder="nombre">

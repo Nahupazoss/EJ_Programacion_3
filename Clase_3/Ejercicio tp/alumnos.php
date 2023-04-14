@@ -3,7 +3,6 @@ namespace TestCrud;
 
 class Alumno
 {
-
 	public int $legajo;
 	public string $nombre;
 	public string $apellido;
@@ -17,18 +16,16 @@ class Alumno
 
 	public static function agregar(Alumno $obj) : bool 
     {
-
 		$retorno = false;
 		//ABRO EL ARCHIVO
 		$ar = fopen("./archivos/alumnos.txt", "a");//A - append
-		//ESCRIBO EN EL ARCHIVO CON FORMATO: CLAVE-VALOR_UNO-VALOR_DOS
+		//ESCRIBO EN EL ARCHIVO CON FORMATO: 
 		$cant = fwrite($ar, "{$obj->legajo}-{$obj->nombre}-{$obj->apellido}\r\n");
 	
 		if($cant > 0)
 		{
 			$retorno = true;			
 		}
-
 		//CIERRO EL ARCHIVO
 		fclose($ar);
 
@@ -43,7 +40,7 @@ class Alumno
 		//LEO LINEA X LINEA DEL ARCHIVO 
 		while(!feof($ar))
 		{
-			$retorno .= fgets($ar);		
+			$retorno .= fgets($ar) . "<br>";		
 		}
 		//CIERRO EL ARCHIVO
 		fclose($ar);
@@ -60,9 +57,7 @@ class Alumno
 		while(!feof($ar))
 		{
 			$linea = fgets($ar);
-			//http://www.w3schools.com/php/func_string_explode.asp
 			$array_linea = explode("-", $linea);
-
 			$array_linea[0] = trim($array_linea[0]);
 
 			if($array_linea[0] != ""){
@@ -73,12 +68,10 @@ class Alumno
 
 				if ($legajo == $obj->legajo) 
                 {
-					
 					array_push($Alumnos, "{$legajo}-{$obj->nombre}-{$obj->apellido}\r\n");
 				}
 				else
                 {
-
 					array_push($Alumnos, "{$legajo}-{$nombre}-{$apellido}\r\n");
 				}
 			}
@@ -114,17 +107,15 @@ class Alumno
 		while(!feof($ar))
 		{
 			$linea = fgets($ar);
-			//http://www.w3schools.com/php/func_string_explode.asp
 			$array_linea = explode("-", $linea);
-
 			$array_linea[0] = trim($array_linea[0]);
 
-			if($array_linea[0] != ""){
+			if($array_linea[0] != "")
+			{
 				//RECUPERO LOS CAMPOS
 				$legajo = trim($array_linea[0]);
 				$nombre = trim($array_linea[1]);
 				$apellido = trim($array_linea[2]);
-
 				if ($legajo == $obj->legajo) 
                 {
 					
@@ -137,7 +128,6 @@ class Alumno
 				}
 			}
 		}
-		//CIERRO EL ARCHIVO
 		fclose($ar);
 		return $retorno;
 	}
@@ -153,9 +143,7 @@ class Alumno
 		while(!feof($ar))
 		{
 			$linea = fgets($ar);
-			//http://www.w3schools.com/php/func_string_explode.asp
 			$array_linea = explode("-", $linea);
-
 			$array_linea[0] = trim($array_linea[0]);
 
 			if($array_linea[0] != "")

@@ -4,18 +4,22 @@
     use TestCrud\Alumno;
 
 //RECUPERO TODOS LOS VALORES (POST)
-    $accion = isset($_POST["accion"]) ? (int) $_POST["accion"] : "sin accion";
+    $accion = isset($_POST["accion"]) ? $_POST["accion"] : "sin accion";
     $legajo = isset($_POST["legajo"]) ? (int) $_POST["legajo"] : 0;
     $nombre = isset($_POST["nombre"]) ? $_POST["nombre"] : "sin nombre";
     $apellido = isset($_POST["apellido"]) ? $_POST["apellido"] : "sin apellido";
 
+	if($accion == "listar" || $accion == "sin accion")
+	{
+		$accion = join('',$_GET);
+	}
 //****************************************** */
 //CRUD - SOBRE ARCHIVOS
 //****************************************** */
 
     switch($accion)
     {
-	    case 1://Create (Alta)
+	    case "agregar"://Create (Alta)
 			$obj = new Alumno($legajo, $nombre, $apellido);
 			if(Alumno::verificar($obj))
 			{
@@ -28,11 +32,12 @@
 			}
 		break;
 
-	    case 2://Read (listar)
-			echo Alumno::listar();
+	    case "listar"://Read (listar)
+			echo "<h2>Lista de alumnos<h2>";
+			echo Alumno::listar() . "<br/>";
 		break;
 
-	    case 3://Update (Modificar)
+	    case "modificar"://Update (Modificar)
 			$obj = new Alumno($legajo, $nombre, $apellido);
 			if(Alumno::verificar($obj))
 			{
@@ -45,7 +50,7 @@
 			}
 		break;
 
-	    case 4://Delete (Borrar)
+	    case "eliminar"://Delete (Borrar)
 			if(Alumno::verificar($obj))
 			{
 				Alumno::borrar($legajo);
