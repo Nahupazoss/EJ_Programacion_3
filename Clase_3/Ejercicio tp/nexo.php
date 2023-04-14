@@ -1,7 +1,7 @@
 <?php
     require_once("./alumnos.php");
 
-    use TestCrud\Elemento;
+    use TestCrud\Alumno;
 
 //RECUPERO TODOS LOS VALORES (POST)
     $accion = isset($_POST["accion"]) ? (int) $_POST["accion"] : "sin accion";
@@ -16,41 +16,45 @@
     switch($accion)
     {
 	    case 1://Create (Alta)
-
-		$obj = new Elemento($legajo, $nombre, $apellido);
-
-		if(Elemento::agregar($obj))
-		{
-
-			echo "<h2> alumno AGREGADO </h2><br/>";	
-		}
-
+			$obj = new Alumno($legajo, $nombre, $apellido);
+			if(Alumno::verificar($obj))
+			{
+				Alumno::agregar($obj);
+				echo "<h2> alumno fue agregado con exito y su legajo es " . $obj->legajo . "</h2><br/>";	
+			}
+			else
+			{
+				echo "<h2> alumno no se ha podido agregar con el legajo" . $obj->legajo ."</h2><br/>";
+			}
 		break;
 
 	    case 2://Read (listar)
-
-		echo Elemento::listar();
-
+			echo Alumno::listar();
 		break;
 
 	    case 3://Update (Modificar)
-
-		$obj = new Elemento($legajo, $nombre, $apellido);
-
-		if(Elemento::modificar($obj))
-		{
-			echo "<h2> alumno MODIFICADO </h2><br/>";			
-		}
-
+			$obj = new Alumno($legajo, $nombre, $apellido);
+			if(Alumno::verificar($obj))
+			{
+				Alumno::modificar($obj);
+				echo "<h2> alumno MODIFICADO </h2><br/>";			
+			}
+		else
+			{
+				echo "<h2> alumno no se ha podido modificar </h2><br/>";
+			}
 		break;
 
 	    case 4://Delete (Borrar)
-
-		if(Elemento::borrar($legajo))
-		{
-			echo "<h2> alumno BORRADO </h2><br/>";			
-		}
-
+			if(Alumno::verificar($obj))
+			{
+				Alumno::borrar($legajo);
+				echo "<h2> alumno BORRADO </h2><br/>";			
+			}
+			else
+			{
+				echo "<h2> alumno no se ha podido borrar </h2><br/>";
+			}
 		break;
 				
 	    default:

@@ -1,7 +1,7 @@
 <?php
 namespace TestCrud;
 
-class Elemento
+class Alumno
 {
 
 	public int $legajo;
@@ -15,17 +15,15 @@ class Elemento
 		$this->apellido = $apellido;
 	}
 
-	public static function agregar(Elemento $obj) : bool 
+	public static function agregar(Alumno $obj) : bool 
     {
 
 		$retorno = false;
-
 		//ABRO EL ARCHIVO
 		$ar = fopen("./archivos/alumnos.txt", "a");//A - append
-
 		//ESCRIBO EN EL ARCHIVO CON FORMATO: CLAVE-VALOR_UNO-VALOR_DOS
 		$cant = fwrite($ar, "{$obj->legajo}-{$obj->nombre}-{$obj->apellido}\r\n");
-
+	
 		if($cant > 0)
 		{
 			$retorno = true;			
@@ -39,34 +37,25 @@ class Elemento
 
 	public static function listar() : string 
     {
-
 		$retorno = "";
-
 		//ABRO EL ARCHIVO
 		$ar = fopen("./archivos/alumnos.txt", "r");
-
 		//LEO LINEA X LINEA DEL ARCHIVO 
 		while(!feof($ar))
 		{
 			$retorno .= fgets($ar);		
 		}
-
 		//CIERRO EL ARCHIVO
 		fclose($ar);
-
 		return $retorno;
 	}
 
-	public static function modificar(Elemento $obj) : bool 
+	public static function modificar(Alumno $obj) : bool 
     {
-
 		$retorno = false;
-
-		$elementos = array();
-
+		$Alumnos = array();
 		//ABRO EL ARCHIVO
 		$ar = fopen("./archivos/alumnos.txt", "r");
-
 		//LEO LINEA X LINEA DEL ARCHIVO 
 		while(!feof($ar))
 		{
@@ -85,52 +74,81 @@ class Elemento
 				if ($legajo == $obj->legajo) 
                 {
 					
-					array_push($elementos, "{$legajo}-{$obj->nombre}-{$obj->apellido}\r\n");
+					array_push($Alumnos, "{$legajo}-{$obj->nombre}-{$obj->apellido}\r\n");
 				}
 				else
                 {
 
-					array_push($elementos, "{$legajo}-{$nombre}-{$apellido}\r\n");
+					array_push($Alumnos, "{$legajo}-{$nombre}-{$apellido}\r\n");
 				}
 			}
 		}
-
 		//CIERRO EL ARCHIVO
 		fclose($ar);
-
 		//ABRO EL ARCHIVO
 		$ar = fopen("./archivos/alumnos.txt", "w");
-
 		$cant = 0;
-		
 		//ESCRIBO EN EL ARCHIVO
-		foreach($elementos AS $item)
+		foreach($Alumnos AS $item)
         {
 
 			$cant = fwrite($ar, $item);
 		}
-
 		if($cant > 0)
 		{
 			$retorno = true;			
 		}
-
 		//CIERRO EL ARCHIVO
 		fclose($ar);
 
 		return $retorno;
 	}
 
-	public static function borrar(int $legajo) : bool 
+	public static function verificar(Alumno $obj) : bool 
     {
-
 		$retorno = false;
-
-		$elementos = array();
-
+		$Alumnos = array();
 		//ABRO EL ARCHIVO
 		$ar = fopen("./archivos/alumnos.txt", "r");
+		//LEO LINEA X LINEA DEL ARCHIVO 
+		while(!feof($ar))
+		{
+			$linea = fgets($ar);
+			//http://www.w3schools.com/php/func_string_explode.asp
+			$array_linea = explode("-", $linea);
 
+			$array_linea[0] = trim($array_linea[0]);
+
+			if($array_linea[0] != ""){
+				//RECUPERO LOS CAMPOS
+				$legajo = trim($array_linea[0]);
+				$nombre = trim($array_linea[1]);
+				$apellido = trim($array_linea[2]);
+
+				if ($legajo == $obj->legajo) 
+                {
+					
+					$retorno = false;
+				}
+				else
+                {
+
+					$retorno = true;
+				}
+			}
+		}
+		//CIERRO EL ARCHIVO
+		fclose($ar);
+		return $retorno;
+	}
+
+
+	public static function borrar(int $legajo) : bool 
+    {
+		$retorno = false;
+		$Alumnos = array();
+		//ABRO EL ARCHIVO
+		$ar = fopen("./archivos/alumnos.txt", "r");
 		//LEO LINEA X LINEA DEL ARCHIVO 
 		while(!feof($ar))
 		{
@@ -153,7 +171,7 @@ class Elemento
 					continue;
 				}
 
-				array_push($elementos, "{$legajo}-{$nombre}-{$apellido}\r\n");
+				array_push($Alumnos, "{$legajo}-{$nombre}-{$apellido}\r\n");
 			}
 		}
 		//CIERRO EL ARCHIVO
@@ -162,7 +180,7 @@ class Elemento
 		//ABRO EL ARCHIVO
 		$ar = fopen("./archivos/alumnos.txt", "w");
 		//ESCRIBO EN EL ARCHIVO
-		foreach($elementos AS $item)
+		foreach($Alumnos AS $item)
         {
 
 			$cant = fwrite($ar, $item);
@@ -172,7 +190,6 @@ class Elemento
 		{
 			$retorno = true;			
 		}
-
 		//CIERRO EL ARCHIVO
 		fclose($ar);
 		return $retorno;

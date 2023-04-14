@@ -24,7 +24,7 @@
         <input type="number" name="legajo" placeholder="legajo">
         <br>
         <br>
-        <input type="submit" value="Cargar alumno" style="font-size: 15px; padding: 10px 15px">
+        <input type="submit" value="Cargar" style="font-size: 15px; padding: 10px 15px">
         <br>
         </form>
     </body>
